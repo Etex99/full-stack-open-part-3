@@ -1,0 +1,24 @@
+{
+  "name": "phonebook-backend",
+  "version": "0.0.1",
+  "description": "Exercises of part 3 in the course \"Full Stack Open\".",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js",
+    "test": "echo \\\"Error: no test specified\\\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Etex99/full-stack-open-part-3.git"
+  },
+  "author": "Etex99",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Etex99/full-stack-open-part-3/issues"
+  },
+  "homepage": "https://github.com/Etex99/full-stack-open-part-3#readme",
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
