@@ -58,12 +58,6 @@ app.post('/api/persons', (request, response, next) => {
     const body = request.body
     console.log(body);
 
-    if (!body.name || !body.number) {
-        return response.status(400).json({
-            error: 'name or number of person is missing'
-        })
-    }
-
     // Person with same name might be submitted if one instance submits and another has not reloaded the page.
     Person.findOne({ name: body.name })
         .then(result => {
@@ -94,7 +88,7 @@ app.put('/api/persons/:id', (request, response, next) => {
       number: body.number,
     }
   
-    Person.findByIdAndUpdate(request.params.id, person, { new: true })
+    Person.findByIdAndUpdate(request.params.id, person, { new: true, runValidators: true, context: 'query' })
       .then(updatedPerson => {
         response.json(updatedPerson)
       })
@@ -110,11 +104,14 @@ app.use(unknownEndpoint)
 const errorHandler = (error, request, response, next) => {
     console.error(error.message)
   
-    if (error.name === 'CastError') {
-      return response.status(400).send({ error: 'malformatted id' })
+    switch (error.name) {
+        case 'CastError':
+            return response.status(400).send({ error: 'malformatted id' })
+        case 'ValidationError':
+            return response.status(400).json({ error: error.message })
+        default:
+            next(error)
     }
-  
-    next(error)
 }
   
 app.use(errorHandler)
